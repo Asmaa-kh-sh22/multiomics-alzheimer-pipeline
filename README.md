@@ -51,4 +51,5 @@ Python 3.12 with the following packages:
 
 ## Citation
 
-[To be added after publication]
+If you use this pipeline, please cite:
+Zenodo DOI: https://doi.org/10.5281/zenodo.19549456
