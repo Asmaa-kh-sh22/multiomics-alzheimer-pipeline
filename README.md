@@ -7,7 +7,7 @@ identify candidate genes for Alzheimer's disease.
 ## Datasets
 
 ### Included in this repository
-- Notebook only — data files are publicly available (see below)
+- Notebook only data files are publicly available (see below)
 
 ### Download required before running
 - **GWAS summary statistics**: Jansen et al. 2019 — download from
