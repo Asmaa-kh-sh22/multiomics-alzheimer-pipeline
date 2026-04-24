@@ -48,6 +48,7 @@ Python 3.12 with the following packages:
 - All 8 genes downregulated in Braak V-VI entorhinal cortex vs Braak 0
 - Significant KEGG pathway: Glycosaminoglycan biosynthesis (adj p = 0.026)
 - Overlap genes: ERCC2, FOSB, OPA3, QPCTL, RELB, RTN2, SNRPD2, TMEM126A
+- DEG threshold: uncorrected p < 0.05 (FDR correction yields 0 genes due to high-dimensional low-sample regime)
 
 ## Citation
 
