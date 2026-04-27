@@ -10,13 +10,13 @@ identify candidate genes for Alzheimer's disease.
 - Notebook only data files are publicly available (see below)
 
 ### Download required before running
-- **GWAS summary statistics**: Jansen et al. 2019 — download from
+- **GWAS summary statistics**: Jansen et al. 2019 - download from
   https://ctg.cncr.nl/software/summary_statistics
   File name: AD_sumstats_Jansenetal_2019sept.txt (~1.8 GB)
-- **Transcriptomics**: GEO accession GSE131617 — download from
+- **Transcriptomics**: GEO accession GSE131617 - download from
   https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE131617
   File name: GSE131617-GPL5175_series_matrix.txt
-- **Platform annotation**: GPL5175 — download from
+- **Platform annotation**: GPL5175 - download from
   https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GPL5175
   File name: GPL5175-3188.txt
 - **Ensembl annotation**: Downloaded automatically in Cell 14
