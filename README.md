@@ -40,7 +40,7 @@ A full frozen environment is provided in `requirements.txt` (run `pip freeze > r
 
 1. Download all three data files from the links above
 2. Place them in the same folder as the notebook
-3. Open `Multiomics-alzheimer-pipeline.ipynb` in Jupyter Notebook
+3. Open `Multiomics-alzheimer-pipeline-V2.ipynb` in Jupyter Notebook
 4. Update the `data_folder` path in Cell 1 to your local directory
 5. Run all cells in order (Kernel → Restart & Run All)
 6. Full run time: approximately [120] minutes, due to the GWAS mapping and window-sensitivity steps (Cells 15, 20c)
