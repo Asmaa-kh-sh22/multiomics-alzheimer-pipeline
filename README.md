@@ -23,7 +23,7 @@ identify exploratory candidate genes for Alzheimer's disease.
 
 ## Requirements
 
-Python [3.11.4 or 3.12 — CONFIRM WHICH] with the following packages:
+Python [3.11.4] with the following packages:
 - pandas 1.5.3
 - numpy 1.24.3
 - scipy 1.10.1
