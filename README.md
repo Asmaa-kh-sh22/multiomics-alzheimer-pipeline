@@ -7,7 +7,7 @@ identify exploratory candidate genes for Alzheimer's disease.
 ## Datasets
 
 ### Included in this repository
-- Notebook only; data files are publicly available (see below)
+- Notebook, plus supplementary output files (SNP and gene lists; see `supplementary/`) - raw input data files are publicly available (see below)
 
 ### Download required before running
 - **GWAS summary statistics**: Jansen et al. 2019 — download from
@@ -44,6 +44,7 @@ A full frozen environment is provided in `requirements.txt` (run `pip freeze > r
 4. Update the `data_folder` path in Cell 1 to your local directory
 5. Run all cells in order (Kernel → Restart & Run All)
 6. Full run time: approximately [120] minutes, due to the GWAS mapping and window-sensitivity steps (Cells 15, 20c)
+7. Supplementary data files (SNP and gene lists) are generated automatically in Cell 20f and saved to the supplementary/ folder.
 
 ## Reproducibility notes
 
