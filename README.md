@@ -49,7 +49,7 @@ A full frozen environment is provided in `requirements.txt` (run `pip freeze > r
 ## Reproducibility notes
 
 - Random seed fixed at 42 for the permutation test (Cell 20e), ensuring exact reproducibility across reruns
-- Functional enrichment (Cells 21, 21b) queries the Enrichr API live; results reflect the database state as of the access date noted in each cell's output — re-running at a later date may return slightly different results as Enrichr's underlying databases are updated
+- Functional enrichment (Cells 21, 21b) queries the Enrichr API live; results reflect the database state as of the access date noted in each cell's output, re-running at a later date may return slightly different results as Enrichr's underlying databases are updated
 - Ensembl annotation release: 109
 
 ## Notebook structure
@@ -71,7 +71,7 @@ A full frozen environment is provided in `requirements.txt` (run `pip freeze > r
 - 7 of 8 candidates confirmed under a non-parametric Mann-Whitney U test
 - All 8 candidates stable across GWAS mapping windows from 20 to 200 kb
 - Positional clustering indicates the 8 candidates represent as few as 2 independent genetic loci (7 genes cluster near *APOE* on chromosome 19; *TMEM126A* is independent on chromosome 11)
-- Permutation test: empirical p = 0.143 (not significant); hypergeometric test with platform-restricted background: p = 0.048 (borderline, but likely inflated by unmodeled LD — see manuscript Discussion)
+- Permutation test: empirical p = 0.143 (not significant); hypergeometric test with platform-restricted background: p = 0.048 (borderline, but likely inflated by unmodeled LD, see manuscript Discussion)
 - No probes survived FDR correction; all reported gene lists should be treated as exploratory, not confirmatory
 - KEGG enrichment (full DEG list): glycosaminoglycan biosynthesis, adjusted p = 0.026
 - KEGG enrichment (8-candidate set only): osteoclast differentiation, adjusted p = 0.014 (2-gene overlap); remaining nominally significant GO terms are single-gene overlaps consistent with small-gene-set correction artifacts
