@@ -57,6 +57,7 @@ A full frozen environment is provided in `requirements.txt` (run `pip freeze > r
 - Cells 13–19: volcano plot, GWAS filtering, gene mapping, probe-to-gene mapping
 - Cell 20: GWAS–transcriptomic set intersection
 - Cells 20a–20e: sensitivity and robustness analyses (hypergeometric test, LD/APOE clustering, GWAS mapping window sensitivity, Mann-Whitney U robustness check, permutation test)
+- Cell 20f: export of supplementary data files (SNP list, gene lists)
 - Cells 21–21b: functional enrichment (full DEG list; candidate-gene-only)
 - Cells 22–24: verification checks (candidate gene confirmation, sample composition, normalization spot-check)
 - Cell 25: pipeline decision-path summary figure
@@ -73,6 +74,7 @@ A full frozen environment is provided in `requirements.txt` (run `pip freeze > r
 - No probes survived FDR correction; all reported gene lists should be treated as exploratory, not confirmatory
 - KEGG enrichment (full DEG list): glycosaminoglycan biosynthesis, adjusted p = 0.026
 - KEGG enrichment (8-candidate set only): osteoclast differentiation, adjusted p = 0.014 (2-gene overlap); remaining nominally significant GO terms are single-gene overlaps consistent with small-gene-set correction artifacts
+- Complete SNP and gene lists are provided as supplementary CSV files (Supplementary Tables S1–S4) for independent verification
 
 ## Citation
 
