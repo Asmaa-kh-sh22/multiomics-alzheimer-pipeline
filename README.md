@@ -2,7 +2,7 @@
 
 A reproducible baseline workflow that combines Alzheimer's disease GWAS summary statistics (Jansen et al. 2019) with entorhinal cortex expression data (GSE131617). The workflow produces exploratory candidate genes. It does not prove that any gene is involved in the disease.
 
-> **Note:** An earlier version of this repository (before the revision) used a mismatched genome build and an incorrect probe annotation. Its results are not valid and are kept in `archive/original_submission/` for transparency only. Please use `revision_analysis.py`.
+> **Note:** An earlier version of this repository (before the revision) used a mismatched genome build and an incorrect probe annotation. Its results are not valid and are kept in `archive/original_submission/` for transparency only. Please use `revision_analysis.ipynb`.
 
 ## Data
 
@@ -19,9 +19,9 @@ Python 3.11.4 with numpy 1.26.4, pandas 2.3.3, scipy 1.17.1 and gseapy 1.1.10. `
 
 ## How to run
 
-1. Put the input files in one folder and set `DATA_DIR` at the top of `revision_analysis.py`.
-2. Run `python revision_analysis.py`. All tables are written to `revision_outputs/`.
-3. Run `python make_figure3.py` to make the PCA figure.
+1. Put the input files in one folder and set `DATA_DIR` at the top of `revision_analysis.ipynb`.
+2. Open `revision_analysis.ipynb` in Jupyter and choose Kernel, then Restart & Run All. All tables are written to `revision_outputs/`.
+3. Run `make_figure3.ipynb` (or `make_figure3.py`) to make the PCA figure.
 
 The random seed is 42. The Enrichr step uses the internet, so its results can change a little if the database is updated. The script also prints the software versions.
 
