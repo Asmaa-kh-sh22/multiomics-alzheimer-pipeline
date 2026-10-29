@@ -1,86 +1,58 @@
-# Multi-Omics Integration Pipeline for Alzheimer's Disease
+# Exploratory GWAS and Expression Integration in Alzheimer's Disease
 
-A transparent and reproducible computational pipeline that integrates 
-GWAS summary statistics with post-mortem brain transcriptomic data to 
-identify exploratory candidate genes for Alzheimer's disease.
+A reproducible baseline workflow that combines Alzheimer's disease GWAS summary statistics (Jansen et al. 2019) with entorhinal cortex expression data (GSE131617). The workflow produces exploratory candidate genes. It does not prove that any gene is involved in the disease.
 
-## Datasets
+> **Note:** An earlier version of this repository (before the revision) used a mismatched genome build and an incorrect probe annotation. Its results are not valid and are kept in `archive/original_submission/` for transparency only. Please use `revision_analysis.py`.
 
-### Included in this repository
-- Notebook, plus supplementary output files (SNP and gene lists; see `supplementary/`) - raw input data files are publicly available (see below)
+## Data
 
-### Download required before running
-- **GWAS summary statistics**: Jansen et al. 2019 — download from
-  https://ctg.cncr.nl/software/summary_statistics
-  File name: AD_sumstats_Jansenetal_2019sept.txt (~1.8 GB)
-- **Transcriptomics**: GEO accession GSE131617 — download from
-  https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE131617
-  File name: GSE131617-GPL5175_series_matrix.txt
-- **Platform annotation**: GPL5175 — download from
-  https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GPL5175
-  File name: GPL5175-3188.txt
-- **Ensembl annotation**: GRCh38 release 109, downloaded automatically in Cell 14
+Download these files and put them in one folder (`DATA_DIR` in the script):
+
+- **GWAS summary statistics:** Jansen et al. 2019, https://ctg.cncr.nl/software/summary_statistics (not needed to run the script, because the 2,394 significant SNPs are already in `Supplementary_Table_S1_significant_SNPs.csv`)
+- **Expression data:** GEO GSE131617, file `GSE131617-GPL5175_series_matrix.txt`
+- **Platform annotation:** GEO GPL5175, file `GPL5175-3188.txt`
+- **Gene annotation:** Ensembl release 87 (GRCh37). The script downloads `Homo_sapiens.GRCh37.87.gtf.gz` by itself on the first run.
 
 ## Requirements
 
-Python [3.11.4] with the following packages:
-- pandas 1.5.3
-- numpy 1.24.3
-- scipy 1.10.1
-- statsmodels 0.14.0
-- scikit-learn 1.6.1
-- matplotlib 3.7.1
-- seaborn 0.12.2
-- gseapy 1.1.10
-- dask 2023.6.0
+Python 3.11.4 with numpy 1.26.4, pandas 2.3.3, scipy 1.17.1 and gseapy 1.1.10. `make_figure3.py` also uses matplotlib and scikit-learn. All versions are in `requirements.txt`.
 
-A full frozen environment is provided in `requirements.txt` (run `pip freeze > requirements.txt` after your final run to keep this current).
+## How to run
 
-## Usage
+1. Put the input files in one folder and set `DATA_DIR` at the top of `revision_analysis.py`.
+2. Run `python revision_analysis.py`. All tables are written to `revision_outputs/`.
+3. Run `python make_figure3.py` to make the PCA figure.
 
-1. Download all three data files from the links above
-2. Place them in the same folder as the notebook
-3. Open `Multiomics-alzheimer-pipeline-V2.ipynb` in Jupyter Notebook
-4. Update the `data_folder` path in Cell 1 to your local directory
-5. Run all cells in order (Kernel → Restart & Run All)
-6. Full run time: approximately [120] minutes, due to the GWAS mapping and window-sensitivity steps (Cells 15, 20c)
-7. Supplementary data files (SNP and gene lists) are generated automatically in Cell 20f and saved to the supplementary/ folder.
+The random seed is 42. The Enrichr step uses the internet, so its results can change a little if the database is updated. The script also prints the software versions.
 
-## Reproducibility notes
+## What the script does
 
-- Random seed fixed at 42 for the permutation test (Cell 20e), ensuring exact reproducibility across reruns
-- Functional enrichment (Cells 21, 21b) queries the Enrichr API live; results reflect the database state as of the access date noted in each cell's output, re-running at a later date may return slightly different results as Enrichr's underlying databases are updated
-- Ensembl annotation release: 109
+1. Maps the GWAS SNPs to genes on GRCh37 (distance 0 inside a gene, otherwise the nearest gene within 50 kb). It checks that rs429358 falls in APOE.
+2. Maps probes to gene symbols with checked Ensembl symbols and removes unclear probes.
+3. Tests AD against control (Braak V to VI against Braak 0) with a moderated linear model with sex.
+4. Tests the overlap with a hypergeometric test (background: the tested genes) and a sex-stratified permutation test.
+5. Runs the sensitivity analyses: no sex adjustment, no APOE region, protein-coding genes only, windows of 20, 50, 100 and 200 kb, Mann-Whitney test, and a model on all 71 entorhinal cortex samples.
+6. Runs a threshold-free test and a ranked gene-set analysis (KEGG and GO), and Enrichr for the candidate genes.
 
-## Notebook structure
+## Main results
 
-- Cells 1–12: data loading, QC, normalization, differential expression, FDR correction; Cell 12 also includes an empirical check confirming Z-score normalization does not alter t-test results
-- Cells 13–19: volcano plot, GWAS filtering, gene mapping, probe-to-gene mapping; Cell 19 also includes probe-to-gene mapping diagnostics (unmapped probe rate, probe-per-gene redundancy)
-- Cell 20: GWAS–transcriptomic set intersection
-- Cells 20a–20e: sensitivity and robustness analyses (hypergeometric test, LD/APOE clustering, GWAS mapping window sensitivity, Mann-Whitney U robustness check, permutation test)
-- Cell 20f: export of supplementary data files (SNP list, gene lists)
-- Cells 21–21b: functional enrichment (full DEG list; candidate-gene-only)
-- Cells 22–24: verification checks (candidate gene confirmation, sample composition, normalization spot-check)
-- Cell 25: pipeline decision-path summary figure
-- Cells 26–29: consolidated robustness table, covariate availability check, PCA restricted to analytical samples, computational environment capture
-  
-## Key Results
+- 2,394 genome-wide significant SNPs gave 128 GWAS genes (60 of them on the array).
+- 14,172 genes were tested. No probe passes FDR (smallest BH p = 0.075). At p < 0.05, 945 genes were selected.
+- 3 genes are in both lists (AGFG2, PVRL2, SLC24A4). About 4.0 are expected by chance (hypergeometric p = 0.77, permutation p = 0.37). The result is the same in all sensitivity analyses.
+- The ranked gene-set results are exploratory.
 
-- 8 exploratory candidate genes with convergent GWAS and transcriptomic evidence at an uncorrected p < 0.05 threshold: *ERCC2*, *FOSB*, *OPA3*, *QPCTL*, *RELB*, *RTN2*, *SNRPD2*, *TMEM126A*
-- All 8 genes downregulated in Braak V–VI entorhinal cortex vs. Braak 0
-- 7 of 8 candidates confirmed under a non-parametric Mann-Whitney U test
-- All 8 candidates stable across GWAS mapping windows from 20 to 200 kb
-- Positional clustering indicates the 8 candidates represent as few as 2 independent genetic loci (7 genes cluster near *APOE* on chromosome 19; *TMEM126A* is independent on chromosome 11)
-- Permutation test: empirical p = 0.143 (not significant); hypergeometric test with platform-restricted background: p = 0.048 (borderline, but likely inflated by unmodeled LD, see manuscript Discussion)
-- No probes survived FDR correction; all reported gene lists should be treated as exploratory, not confirmatory
-- KEGG enrichment (full DEG list): glycosaminoglycan biosynthesis, adjusted p = 0.026
-- KEGG enrichment (8-candidate set only): osteoclast differentiation, adjusted p = 0.014 (2-gene overlap); remaining nominally significant GO terms are single-gene overlaps consistent with small-gene-set correction artifacts
-- Complete SNP and gene lists are provided as supplementary CSV files (Supplementary Tables S1–S4) for independent verification
-- Z-score normalization does not alter t-test results (verified empirically; maximum p-value difference = 5.8 × 10⁻¹⁴)
-- 80.1% of probes (17,634/22,011) mapped to a valid gene symbol; probe-to-gene redundancy was minor (at most 3 probes per gene, affecting 1.8% of mapped genes)
+All genes are exploratory candidates only.
+
+## Changes from the first version
+
+- GRCh37 gene annotation (Ensembl 87) instead of GRCh38.
+- Validated probe-to-gene mapping.
+- Background changed to the tested genes (14,172).
+- Sex added to the model, with moderated variances.
+- Sex-stratified permutation test.
+- New analyses: APOE-region exclusion, protein-coding only, window sensitivity, all-sample Braak model, threshold-free test, ranked gene sets.
+- The old claims about 8 genes, glycosaminoglycan and osteoclast were removed.
 
 ## Citation
 
-If you use this pipeline, please cite: [PAPER CITATION — TO BE ADDED UPON PUBLICATION]
-- Overlap genes: ERCC2, FOSB, OPA3, QPCTL, RELB, RTN2, SNRPD2, TMEM126A
-- DEG threshold: uncorrected p < 0.05 (FDR correction yields 0 genes due to high-dimensional low-sample regime)
+If you use this workflow, please cite the paper (reference to be added after publication) and the archived version: DOI [ZENODO DOI]
