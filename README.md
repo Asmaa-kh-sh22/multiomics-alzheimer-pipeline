@@ -55,4 +55,4 @@ All genes are exploratory candidates only.
 
 ## Citation
 
-If you use this workflow, please cite the paper (reference to be added after publication) and the archived version: DOI [ZENODO DOI]
+If you use this workflow, please cite the paper (reference to be added after publication) and the archived version: DOI [10.5281/zenodo.23776061]
